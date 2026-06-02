@@ -7,8 +7,9 @@ require_once __DIR__ . '/checker.php';
 $user_count = $db->getUserCount();
 $setup_mode = ($user_count === 0);
 
-$error = '';
-$success = '';
+$error = $_SESSION['error'] ?? '';
+$success = $_SESSION['success'] ?? '';
+unset($_SESSION['error'], $_SESSION['success']);
 
 // Helper to sanitize slug
 function sanitize_slug($slug) {
@@ -178,21 +179,23 @@ if ($is_authenticated) {
         $status = isset($_POST['status']) ? 1 : 0;
         
         if (empty($slug) || empty($target_url)) {
-            $error = 'Slug and Target URL are required.';
+            $_SESSION['error'] = 'Slug and Target URL are required.';
         } elseif (!filter_var($target_url, FILTER_VALIDATE_URL)) {
-            $error = 'Invalid Target URL format. Please include http:// or https://.';
+            $_SESSION['error'] = 'Invalid Target URL format. Please include http:// or https://.';
         } else {
             // Check uniqueness
             if ($db->getRedirectBySlug($slug)) {
-                $error = "The slug '{$slug}' already exists.";
+                $_SESSION['error'] = "The slug '{$slug}' already exists.";
             } else {
                 if ($db->addRedirect($slug, $target_url, $status)) {
-                    $success = 'Redirect link created successfully!';
+                    $_SESSION['success'] = 'Redirect link created successfully!';
                 } else {
-                    $error = 'Failed to create redirect link.';
+                    $_SESSION['error'] = 'Failed to create redirect link.';
                 }
             }
         }
+        header('Location: admin.php?tab=redirects');
+        exit;
     }
     
     // Edit Link POST
@@ -203,22 +206,24 @@ if ($is_authenticated) {
         $status = isset($_POST['status']) ? 1 : 0;
         
         if (empty($slug) || empty($target_url)) {
-            $error = 'All fields are required.';
+            $_SESSION['error'] = 'All fields are required.';
         } elseif (!filter_var($target_url, FILTER_VALIDATE_URL)) {
-            $error = 'Invalid Target URL format. Please include http:// or https://.';
+            $_SESSION['error'] = 'Invalid Target URL format. Please include http:// or https://.';
         } else {
             // Check uniqueness except itself
             $existing = $db->getRedirectBySlug($slug);
             if ($existing && intval($existing['id']) !== $id) {
-                $error = "The slug '{$slug}' is already taken by another link.";
+                $_SESSION['error'] = "The slug '{$slug}' is already taken by another link.";
             } else {
                 if ($db->updateRedirect($id, $slug, $target_url, $status)) {
-                    $success = 'Redirect link updated successfully!';
+                    $_SESSION['success'] = 'Redirect link updated successfully!';
                 } else {
-                    $error = 'Failed to update redirect link.';
+                    $_SESSION['error'] = 'Failed to update redirect link.';
                 }
             }
         }
+        header('Location: admin.php?tab=redirects');
+        exit;
     }
     
     // Delete Link GET
@@ -227,20 +232,24 @@ if ($is_authenticated) {
         $link = $db->getRedirectById($id);
         
         if ($link && $link['slug'] === 'default') {
-            $error = 'The default fallback route cannot be deleted, but you can edit its target.';
+            $_SESSION['error'] = 'The default fallback route cannot be deleted, but you can edit its target.';
         } else {
             if ($db->deleteRedirect($id)) {
-                $success = 'Redirect link deleted successfully.';
+                $_SESSION['success'] = 'Redirect link deleted successfully.';
             } else {
-                $error = 'Failed to delete redirect link.';
+                $_SESSION['error'] = 'Failed to delete redirect link.';
             }
         }
+        header('Location: admin.php?tab=redirects');
+        exit;
     }
     
     // Clear Logs POST
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'clear_logs') {
         $db->clearLogs();
-        $success = 'Click logs cleared and redirect counters reset!';
+        $_SESSION['success'] = 'Click logs cleared and redirect counters reset!';
+        header('Location: admin.php?tab=overview');
+        exit;
     }
     
     // Add User POST
@@ -250,28 +259,32 @@ if ($is_authenticated) {
         $role = $_POST['role'] ?? 'operator';
         
         if (empty($username) || empty($password)) {
-            $error = 'All fields are required.';
+            $_SESSION['error'] = 'All fields are required.';
         } elseif (strlen($password) < 6) {
-            $error = 'Password must be at least 6 characters.';
+            $_SESSION['error'] = 'Password must be at least 6 characters.';
         } else {
             if ($db->getUserByUsername($username)) {
-                $error = 'Username already exists.';
+                $_SESSION['error'] = 'Username already exists.';
             } else {
                 $db->addUser($username, password_hash($password, PASSWORD_DEFAULT), '', '', $role);
-                $success = "User account '{$username}' created.";
+                $_SESSION['success'] = "User account '{$username}' created.";
             }
         }
+        header('Location: admin.php?tab=security');
+        exit;
     }
     
     // Delete User GET
     if (isset($_GET['delete_user']) && $_SESSION['role'] === 'admin') {
         $id = intval($_GET['delete_user']);
         if ($id === intval($_SESSION['user_id'])) {
-            $error = 'You cannot delete your own account.';
+            $_SESSION['error'] = 'You cannot delete your own account.';
         } else {
             $db->deleteUser($id);
-            $success = 'User account deleted.';
+            $_SESSION['success'] = 'User account deleted.';
         }
+        header('Location: admin.php?tab=security');
+        exit;
     }
     
     // Change Password / Recovery POST
@@ -285,7 +298,7 @@ if ($is_authenticated) {
         $user = $db->getUserById($_SESSION['user_id']);
         
         if (!password_verify($current_pw, $user['password_hash'])) {
-            $error = 'Current password is incorrect.';
+            $_SESSION['error'] = 'Current password is incorrect.';
         } else {
             try {
                 // Password change
@@ -308,48 +321,58 @@ if ($is_authenticated) {
                     );
                 }
                 
-                $success = 'Security settings updated successfully!';
+                $_SESSION['success'] = 'Security settings updated successfully!';
             } catch (Exception $ex) {
-                $error = $ex->getMessage();
+                $_SESSION['error'] = $ex->getMessage();
             }
         }
+        header('Location: admin.php?tab=security');
+        exit;
     }
 
     // Add Domain POST
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_domain') {
         $new_domain = trim($_POST['new_domain'] ?? '');
         if (empty($new_domain)) {
-            $error = 'Domain name cannot be empty.';
+            $_SESSION['error'] = 'Domain name cannot be empty.';
         } else {
             if ($db->addDomain($new_domain)) {
-                $success = "Domain '{$new_domain}' added to your list.";
+                $_SESSION['success'] = "Domain '{$new_domain}' added to your list.";
             } else {
-                $error = "Failed to add domain. It may already exist.";
+                $_SESSION['error'] = "Failed to add domain. It may already exist.";
             }
         }
+        header('Location: admin.php?tab=domains');
+        exit;
     }
 
     // Delete Domain GET
     if (isset($_GET['delete_domain'])) {
         $id = intval($_GET['delete_domain']);
         $db->deleteDomain($id);
-        $success = 'Domain deleted successfully.';
+        $_SESSION['success'] = 'Domain deleted successfully.';
+        header('Location: admin.php?tab=domains');
+        exit;
     }
 
     // Manual Force Check Domains GET
     if (isset($_GET['check_domains'])) {
         $rotated = runAutoCheck($db, true);
         if ($rotated) {
-            $success = 'Blacklist verification complete: Blocked domain detected and successfully rotated to clean backup domain!';
+            $_SESSION['success'] = 'Blacklist verification complete: Blocked domain detected and successfully rotated to clean backup domain!';
         } else {
-            $success = 'Blacklist verification complete: Active domain is clean!';
+            $_SESSION['success'] = 'Blacklist verification complete: Active domain is clean!';
         }
+        header('Location: admin.php?tab=domains');
+        exit;
     }
 
     // Force Rotate Domain GET
     if (isset($_GET['rotate_domain'])) {
         $db->rotateDomain();
-        $success = 'Domain rotated to next clean backup successfully.';
+        $_SESSION['success'] = 'Domain rotated to next clean backup successfully.';
+        header('Location: admin.php?tab=domains');
+        exit;
     }
     
     // Save Settings POST
@@ -360,16 +383,18 @@ if ($is_authenticated) {
         $check_interval_hours = max(0.01, floatval($_POST['check_interval_hours'] ?? 6));
         
         if (empty($fallback_url)) {
-            $error = 'Fallback URL cannot be empty.';
+            $_SESSION['error'] = 'Fallback URL cannot be empty.';
         } elseif (!filter_var($fallback_url, FILTER_VALIDATE_URL)) {
-            $error = 'Invalid fallback URL format.';
+            $_SESSION['error'] = 'Invalid fallback URL format.';
         } else {
             $db->updateSetting('fallback_url', $fallback_url);
             $db->updateSetting('domain_override', rtrim($domain_override, '/'));
             $db->updateSetting('safe_browsing_key', $safe_browsing_key);
             $db->updateSetting('check_interval_hours', $check_interval_hours);
-            $success = 'Settings updated successfully!';
+            $_SESSION['success'] = 'Settings updated successfully!';
         }
+        header('Location: admin.php?tab=settings');
+        exit;
     }
     
     // CSV Export Handler
