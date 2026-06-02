@@ -10,7 +10,7 @@ if (!isset($_GET['timestamp'])) {
     $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
     $redirectUrl = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     $urlWithTimestamp = $redirectUrl . (strpos($_SERVER['REQUEST_URI'], '?') === false ? '?' : '&') . "timestamp=" . microtime(true);
-    header("Location: $urlWithTimestamp", true, 301);
+    header("Location: $urlWithTimestamp", true, 302);
     exit;
 }
 
@@ -98,7 +98,7 @@ function buildRedirectUrl($targetUrl, $isCustomSlug) {
     $queryString = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) ?? '';
     
     // Strip the timestamp parameter
-    $queryString = preg_replace('/(^|&)timestamp=[0-9.]+(\$|&)/', '$1', $queryString);
+    $queryString = preg_replace('/(^|&)timestamp=[0-9.]+(\&|$)/', '$1', $queryString);
     $queryString = trim($queryString, '&');
     
     if ($isCustomSlug) {
@@ -130,6 +130,6 @@ function buildRedirectUrl($targetUrl, $isCustomSlug) {
 
 // Redirect to target URL
 $final_destination = buildRedirectUrl($target_url, $is_custom_slug);
-header("Location: " . $final_destination, true, 301);
+header("Location: " . $final_destination, true, 302);
 exit;
 ?>
