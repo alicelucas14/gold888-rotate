@@ -187,14 +187,17 @@ if ($is_authenticated) {
     // Add Link POST
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_link') {
         $slug = sanitize_slug($_POST['slug'] ?? '');
+        if (empty($slug)) {
+            $slug = 'default';
+        }
         $target_url = trim($_POST['target_url'] ?? '');
         $status = isset($_POST['status']) ? 1 : 0;
         
         $backup_urls_raw = $_POST['backup_urls'] ?? '';
         $backup_urls = array_values(array_filter(array_map('trim', explode("\n", $backup_urls_raw))));
         
-        if (empty($slug) || empty($target_url)) {
-            $_SESSION['error'] = 'Slug and Target URL are required.';
+        if (empty($target_url)) {
+            $_SESSION['error'] = 'Target URL is required.';
         } elseif (!filter_var($target_url, FILTER_VALIDATE_URL)) {
             $_SESSION['error'] = 'Invalid Target URL format. Please include http:// or https://.';
         } else {
@@ -217,14 +220,17 @@ if ($is_authenticated) {
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'edit_link') {
         $id = intval($_POST['id'] ?? 0);
         $slug = sanitize_slug($_POST['slug'] ?? '');
+        if (empty($slug)) {
+            $slug = 'default';
+        }
         $target_url = trim($_POST['target_url'] ?? '');
         $status = isset($_POST['status']) ? 1 : 0;
         
         $backup_urls_raw = $_POST['backup_urls'] ?? '';
         $backup_urls = array_values(array_filter(array_map('trim', explode("\n", $backup_urls_raw))));
         
-        if (empty($slug) || empty($target_url)) {
-            $_SESSION['error'] = 'All fields are required.';
+        if (empty($target_url)) {
+            $_SESSION['error'] = 'Target URL is required.';
         } elseif (!filter_var($target_url, FILTER_VALIDATE_URL)) {
             $_SESSION['error'] = 'Invalid Target URL format. Please include http:// or https://.';
         } else {
@@ -1504,21 +1510,16 @@ if (!empty($domain_override)) {
                 </a>
                 
                 <!-- Brand Switcher -->
-                <div class="brand-switcher-container" style="padding: 0.5rem 1.25rem 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); margin-bottom: 1rem;">
+                <div class="brand-switcher-container" style="padding: 0.5rem 0 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); margin-bottom: 1rem;">
                     <div style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-bottom: 0.5rem; font-weight: 700;">System Context</div>
-                    <div class="brand-pills" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.25rem; background: rgba(255, 255, 255, 0.03); padding: 0.2rem; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05);">
+                    <div class="brand-pills" style="display: flex; flex-direction: column; gap: 0.35rem;">
                         <?php for ($i = 1; $i <= 4; $i++): 
                             $b_name_pill = $db->getBrandSetting($i, 'name');
                             if (empty($b_name_pill)) $b_name_pill = 'Brand ' . $i;
-                            // Extract first 4 chars of name or acronym for pill
-                            $pill_label = $b_name_pill;
-                            if (strlen($b_name_pill) > 6) {
-                                $pill_label = substr($b_name_pill, 0, 5) . '..';
-                            }
                             $is_active = (intval($active_brand_id) === $i);
                         ?>
-                            <a href="admin.php?brand_id=<?php echo $i; ?>" class="brand-pill-btn" style="text-align: center; text-decoration: none; padding: 0.4rem 0.1rem; font-size: 0.72rem; font-weight: 600; border-radius: 6px; transition: all 0.2s; color: <?php echo $is_active ? '#fff' : 'var(--text-secondary)'; ?>; background: <?php echo $is_active ? 'var(--accent-gradient)' : 'transparent'; ?>; box-shadow: <?php echo $is_active ? '0 2px 8px rgba(99,102,241,0.3)' : 'none'; ?>;" title="<?php echo htmlspecialchars($b_name_pill); ?>">
-                                <?php echo htmlspecialchars($pill_label); ?>
+                            <a href="admin.php?brand_id=<?php echo $i; ?>" class="brand-pill-btn" style="display: block; padding: 0.55rem 0.8rem; font-size: 0.825rem; font-weight: 600; border-radius: 10px; transition: all 0.2s; text-decoration: none; color: <?php echo $is_active ? '#fff' : 'var(--text-secondary)'; ?>; background: <?php echo $is_active ? 'var(--accent-gradient)' : 'rgba(255, 255, 255, 0.02)'; ?>; border: 1px solid <?php echo $is_active ? 'transparent' : 'var(--border-color)'; ?>; box-shadow: <?php echo $is_active ? '0 4px 12px rgba(99,102,241,0.2)' : 'none'; ?>;" onmouseover="this.style.color='#fff'; if(!<?php echo $is_active ? 'true' : 'false'; ?>) this.style.background='rgba(255, 255, 255, 0.06)';" onmouseout="if(!<?php echo $is_active ? 'true' : 'false'; ?>) { this.style.color='var(--text-secondary)'; this.style.background='rgba(255, 255, 255, 0.02)'; }">
+                                <?php echo htmlspecialchars($b_name_pill); ?>
                             </a>
                         <?php endfor; ?>
                     </div>
@@ -2275,10 +2276,10 @@ if (!empty($domain_override)) {
                     <div class="form-group">
                         <label for="modal-slug">URL Slug / Path</label>
                         <div class="input-wrapper">
-                            <input type="text" name="slug" id="modal-slug" class="form-input" placeholder="e.g. promo" required>
+                            <input type="text" name="slug" id="modal-slug" class="form-input" placeholder="e.g. promo (optional)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                         </div>
-                        <span style="font-size:0.75rem; color:var(--text-secondary); display:block; margin-top:0.35rem;">Use lowercase letters, numbers, and dashes. Use "<code>default</code>" to override root domain redirection.</span>
+                        <span style="font-size:0.75rem; color:var(--text-secondary); display:block; margin-top:0.35rem;">Use lowercase letters, numbers, and dashes. Leave blank (or use "<code>default</code>") to redirect root domain traffic.</span>
                     </div>
 
                     <div class="form-group">
