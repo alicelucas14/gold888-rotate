@@ -614,8 +614,23 @@ class JsonDatabase {
     public function getBrandIdByHost($host) {
         $this->load();
         $host = strtolower(trim($host));
+        
+        // Remove port number if present (e.g. localhost:8000 -> localhost)
+        if (strpos($host, ':') !== false) {
+            $host = explode(':', $host)[0];
+        }
+        
+        // Remove 'www.' prefix if present
+        if (strpos($host, 'www.') === 0) {
+            $host = substr($host, 4);
+        }
+        
         foreach ($this->data['domains'] as $d) {
-            if ($d['domain'] === $host) {
+            $db_domain = strtolower(trim($d['domain']));
+            if (strpos($db_domain, 'www.') === 0) {
+                $db_domain = substr($db_domain, 4);
+            }
+            if ($db_domain === $host) {
                 return intval($d['brand_id'] ?? 1);
             }
         }
