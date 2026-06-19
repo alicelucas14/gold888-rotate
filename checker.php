@@ -170,6 +170,8 @@ function checkIndonesianIspBlock($domain, $ignoreNxdomain = false) {
     
     // Known Indonesian DNS servers that enforce TrustPositif/Internet Positif blocking
     $indonesianDnsServers = [
+        'APJII DNS Bersama 1' => '103.88.88.88',
+        'APJII DNS Bersama 2' => '103.88.88.99',
         'Telkom Speedy/IndiHome DNS' => '203.130.196.155',
         'Biznet DNS' => '202.169.33.33',
         'XL/Axis DNS' => '202.152.240.50'
@@ -180,6 +182,8 @@ function checkIndonesianIspBlock($domain, $ignoreNxdomain = false) {
     $blockedIpPrefixes = [
         '36.86.63.',   // Telkom internetpositif.id landing range
         '118.98.97.',  // Older Telkom block page IP range
+        '203.119.13.', // Kominfo / TrustPositif block page IP range
+        '203.119.14.', // Kominfo / TrustPositif block page IP backup range
         '127.0.0.',    // Localhost redirect blocks
         '0.0.0.0'
     ];
