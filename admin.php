@@ -489,6 +489,12 @@ if (!empty($domain_override)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wings365 — Console</title>
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -512,6 +518,78 @@ if (!empty($domain_override)) {
             --error-border: rgba(244, 63, 94, 0.25);
             --font-main: 'Outfit', sans-serif;
             --font-heading: 'Plus Jakarta Sans', sans-serif;
+
+            --bg-gradient-1: rgba(99, 102, 241, 0.12);
+            --bg-gradient-2: rgba(168, 85, 247, 0.1);
+            --input-bg: rgba(255, 255, 255, 0.04);
+            --input-focus-bg: rgba(255, 255, 255, 0.07);
+            --nav-hover-bg: rgba(255, 255, 255, 0.04);
+            --user-profile-bg: rgba(255, 255, 255, 0.03);
+            --bar-track-bg: rgba(255, 255, 255, 0.03);
+            --table-header-bg: rgba(255, 255, 255, 0.02);
+            --table-row-hover-bg: rgba(255, 255, 255, 0.015);
+            --box-shadow-auth: 0 25px 50px rgba(0, 0, 0, 0.4);
+            --box-shadow-card: 0 15px 35px rgba(0, 0, 0, 0.15);
+            --box-shadow-stats: 0 10px 30px rgba(0, 0, 0, 0.1);
+            
+            --action-btn-bg: rgba(255, 255, 255, 0.04);
+            --action-btn-hover-bg: rgba(255, 255, 255, 0.08);
+            --action-btn-hover-border: rgba(255, 255, 255, 0.15);
+            
+            --footer-text: rgba(255, 255, 255, 0.15);
+            --footer-border: rgba(255, 255, 255, 0.03);
+            
+            --brand-pill-inactive-bg: rgba(255, 255, 255, 0.02);
+            --brand-pill-inactive-hover-bg: rgba(255, 255, 255, 0.06);
+            --badge-default-bg: rgba(255, 255, 255, 0.05);
+            
+            --btn-secondary-bg: rgba(255, 255, 255, 0.05);
+            --btn-secondary-hover-bg: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f8fafc;
+            --surface-color: rgba(255, 255, 255, 0.85);
+            --sidebar-color: rgba(241, 245, 249, 0.95);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --accent-primary: #4f46e5;
+            --accent-secondary: #9333ea;
+            --accent-gradient: linear-gradient(135deg, #4f46e5, #9333ea);
+            --success-color: #10b981;
+            --success-bg: rgba(16, 185, 129, 0.08);
+            --success-border: rgba(16, 185, 129, 0.15);
+            --error-color: #ef4444;
+            --error-bg: rgba(239, 68, 68, 0.08);
+            --error-border: rgba(239, 68, 68, 0.15);
+            
+            --bg-gradient-1: rgba(99, 102, 241, 0.06);
+            --bg-gradient-2: rgba(168, 85, 247, 0.05);
+            --input-bg: rgba(0, 0, 0, 0.03);
+            --input-focus-bg: rgba(0, 0, 0, 0.05);
+            --nav-hover-bg: rgba(0, 0, 0, 0.03);
+            --user-profile-bg: rgba(0, 0, 0, 0.02);
+            --bar-track-bg: rgba(0, 0, 0, 0.02);
+            --table-header-bg: rgba(0, 0, 0, 0.01);
+            --table-row-hover-bg: rgba(0, 0, 0, 0.01);
+            --box-shadow-auth: 0 25px 50px rgba(0, 0, 0, 0.08);
+            --box-shadow-card: 0 15px 35px rgba(0, 0, 0, 0.05);
+            --box-shadow-stats: 0 10px 30px rgba(0, 0, 0, 0.03);
+            
+            --action-btn-bg: rgba(0, 0, 0, 0.03);
+            --action-btn-hover-bg: rgba(0, 0, 0, 0.06);
+            --action-btn-hover-border: rgba(0, 0, 0, 0.12);
+            
+            --footer-text: rgba(0, 0, 0, 0.4);
+            --footer-border: rgba(0, 0, 0, 0.05);
+            
+            --brand-pill-inactive-bg: rgba(0, 0, 0, 0.02);
+            --brand-pill-inactive-hover-bg: rgba(0, 0, 0, 0.04);
+            --badge-default-bg: rgba(0, 0, 0, 0.04);
+            
+            --btn-secondary-bg: rgba(0, 0, 0, 0.04);
+            --btn-secondary-hover-bg: rgba(0, 0, 0, 0.08);
         }
 
         * {
@@ -523,8 +601,8 @@ if (!empty($domain_override)) {
         body {
             background-color: var(--bg-color);
             background-image: 
-                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 40%),
-                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.1) 0px, transparent 40%);
+                radial-gradient(at 0% 0%, var(--bg-gradient-1) 0px, transparent 40%),
+                radial-gradient(at 100% 100%, var(--bg-gradient-2) 0px, transparent 40%);
             background-attachment: fixed;
             color: var(--text-primary);
             font-family: var(--font-main);
@@ -619,7 +697,7 @@ if (!empty($domain_override)) {
 
         .nav-item a:hover {
             color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.04);
+            background: var(--nav-hover-bg);
         }
 
         .nav-item.active a {
@@ -630,7 +708,7 @@ if (!empty($domain_override)) {
 
         .user-profile {
             margin-top: auto;
-            background: rgba(255, 255, 255, 0.03);
+            background: var(--user-profile-bg);
             border: 1px solid var(--border-color);
             border-radius: 14px;
             padding: 0.85rem 1rem;
@@ -686,6 +764,54 @@ if (!empty($domain_override)) {
             background: rgba(244, 63, 94, 0.1);
         }
 
+        /* Floating Theme Toggler for login screens */
+        .theme-toggle-floating {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 1000;
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            padding: 0.6rem;
+            border-radius: 12px;
+            cursor: pointer;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.2s ease;
+            box-shadow: var(--box-shadow-stats);
+        }
+
+        .theme-toggle-floating:hover {
+            background: var(--nav-hover-bg);
+            border-color: var(--accent-primary);
+        }
+
+        .theme-toggle-icon {
+            width: 18px;
+            height: 18px;
+            stroke-width: 2;
+            fill: none;
+            stroke: currentColor;
+            display: block;
+        }
+
+        [data-theme="light"] .theme-toggle-light-icon {
+            display: none;
+        }
+
+        [data-theme="dark"] .theme-toggle-dark-icon {
+            display: none;
+        }
+
+        /* Default is dark theme if data-theme isn't explicitly set */
+        html:not([data-theme="light"]) .theme-toggle-dark-icon {
+            display: none;
+        }
+
         /* Main Content Container */
         .content-area {
             flex-grow: 1;
@@ -719,7 +845,7 @@ if (!empty($domain_override)) {
             border: 1px solid var(--border-color);
             border-radius: 28px;
             padding: 2.5rem;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            box-shadow: var(--box-shadow-auth);
             animation: slideUp 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -818,7 +944,7 @@ if (!empty($domain_override)) {
 
         .form-input, .form-select {
             width: 100%;
-            background: rgba(255, 255, 255, 0.04);
+            background: var(--input-bg);
             border: 1px solid var(--border-color);
             color: var(--text-primary);
             padding: 0.8rem 1rem 0.8rem 2.75rem;
@@ -840,7 +966,7 @@ if (!empty($domain_override)) {
         }
 
         .form-input:focus, .form-select:focus {
-            background: rgba(255, 255, 255, 0.07);
+            background: var(--input-focus-bg);
             border-color: var(--accent-primary);
             box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
         }
@@ -872,14 +998,14 @@ if (!empty($domain_override)) {
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--btn-secondary-bg);
             color: var(--text-primary);
             border: 1px solid var(--border-color);
             box-shadow: none;
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--btn-secondary-hover-bg);
             transform: translateY(-1px);
             box-shadow: none;
         }
@@ -915,7 +1041,7 @@ if (!empty($domain_override)) {
             display: flex;
             align-items: center;
             gap: 1.25rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--box-shadow-stats);
         }
 
         .stats-icon {
@@ -981,7 +1107,7 @@ if (!empty($domain_override)) {
             border: 1px solid var(--border-color);
             border-radius: 24px;
             padding: 2rem;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            box-shadow: var(--box-shadow-card);
             margin-bottom: 2rem;
         }
 
@@ -1030,7 +1156,7 @@ if (!empty($domain_override)) {
         .bar-slug {
             color: var(--text-primary);
             font-family: monospace;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--badge-default-bg);
             padding: 0.1rem 0.4rem;
             border-radius: 5px;
         }
@@ -1042,7 +1168,7 @@ if (!empty($domain_override)) {
 
         .bar-track {
             height: 8px;
-            background: rgba(255, 255, 255, 0.03);
+            background: var(--bar-track-bg);
             border-radius: 4px;
             overflow: hidden;
             border: 1px solid var(--border-color);
@@ -1061,7 +1187,7 @@ if (!empty($domain_override)) {
             overflow-x: auto;
             border-radius: 16px;
             border: 1px solid var(--border-color);
-            background: rgba(255, 255, 255, 0.01);
+            background: var(--table-header-bg);
         }
 
         table {
@@ -1072,7 +1198,7 @@ if (!empty($domain_override)) {
         }
 
         th {
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--table-header-bg);
             font-weight: 600;
             text-transform: uppercase;
             font-size: 0.75rem;
@@ -1094,7 +1220,7 @@ if (!empty($domain_override)) {
         }
 
         tr:hover td {
-            background: rgba(255, 255, 255, 0.015);
+            background: var(--table-row-hover-bg);
         }
 
         .badge {
@@ -1140,7 +1266,7 @@ if (!empty($domain_override)) {
         }
 
         .action-btn {
-            background: rgba(255, 255, 255, 0.04);
+            background: var(--action-btn-bg);
             border: 1px solid var(--border-color);
             color: var(--text-primary);
             padding: 0.45rem 0.75rem;
@@ -1156,8 +1282,8 @@ if (!empty($domain_override)) {
         }
 
         .action-btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.15);
+            background: var(--action-btn-hover-bg);
+            border-color: var(--action-btn-hover-border);
         }
 
         .action-btn-danger:hover {
@@ -1196,7 +1322,7 @@ if (!empty($domain_override)) {
             max-width: 500px;
             width: 90%;
             padding: 2rem;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            box-shadow: var(--box-shadow-auth);
             transform: scale(0.95);
             transition: transform 0.25s ease;
         }
@@ -1289,9 +1415,9 @@ if (!empty($domain_override)) {
         footer {
             padding: 2rem;
             text-align: center;
-            color: rgba(255, 255, 255, 0.15);
+            color: var(--footer-text);
             font-size: 0.8rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            border-top: 1px solid var(--footer-border);
             margin-top: auto;
         }
     </style>
@@ -1312,6 +1438,10 @@ if (!empty($domain_override)) {
     </div>
 
     <?php if (!$is_authenticated): ?>
+        <button class="theme-toggle-floating" onclick="toggleTheme()" title="Toggle Theme">
+            <svg class="theme-toggle-light-icon theme-toggle-icon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <svg class="theme-toggle-dark-icon theme-toggle-icon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
         <div class="auth-wrapper">
             <?php if ($setup_mode): ?>
                 <!-- Setup Screen -->
@@ -1510,7 +1640,7 @@ if (!empty($domain_override)) {
                 </a>
                 
                 <!-- Brand Switcher -->
-                <div class="brand-switcher-container" style="padding: 0.5rem 0 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); margin-bottom: 1rem;">
+                <div class="brand-switcher-container" style="padding: 0.5rem 0 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1rem;">
                     <div style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-bottom: 0.5rem; font-weight: 700;">System Context</div>
                     <div class="brand-pills" style="display: flex; flex-direction: column; gap: 0.35rem;">
                         <?php for ($i = 1; $i <= 4; $i++): 
@@ -1518,7 +1648,7 @@ if (!empty($domain_override)) {
                             if (empty($b_name_pill)) $b_name_pill = 'Brand ' . $i;
                             $is_active = (intval($active_brand_id) === $i);
                         ?>
-                            <a href="admin.php?brand_id=<?php echo $i; ?>" class="brand-pill-btn" style="display: block; padding: 0.55rem 0.8rem; font-size: 0.825rem; font-weight: 600; border-radius: 10px; transition: all 0.2s; text-decoration: none; color: <?php echo $is_active ? '#fff' : 'var(--text-secondary)'; ?>; background: <?php echo $is_active ? 'var(--accent-gradient)' : 'rgba(255, 255, 255, 0.02)'; ?>; border: 1px solid <?php echo $is_active ? 'transparent' : 'var(--border-color)'; ?>; box-shadow: <?php echo $is_active ? '0 4px 12px rgba(99,102,241,0.2)' : 'none'; ?>;" onmouseover="this.style.color='#fff'; if(!<?php echo $is_active ? 'true' : 'false'; ?>) this.style.background='rgba(255, 255, 255, 0.06)';" onmouseout="if(!<?php echo $is_active ? 'true' : 'false'; ?>) { this.style.color='var(--text-secondary)'; this.style.background='rgba(255, 255, 255, 0.02)'; }">
+                            <a href="admin.php?brand_id=<?php echo $i; ?>" class="brand-pill-btn" style="display: block; padding: 0.55rem 0.8rem; font-size: 0.825rem; font-weight: 600; border-radius: 10px; transition: all 0.2s; text-decoration: none; color: <?php echo $is_active ? '#fff' : 'var(--text-secondary)'; ?>; background: <?php echo $is_active ? 'var(--accent-gradient)' : 'var(--brand-pill-inactive-bg)'; ?>; border: 1px solid <?php echo $is_active ? 'transparent' : 'var(--border-color)'; ?>; box-shadow: <?php echo $is_active ? '0 4px 12px rgba(99,102,241,0.2)' : 'none'; ?>;" onmouseover="this.style.color='#fff'; if(!<?php echo $is_active ? 'true' : 'false'; ?>) this.style.background='var(--brand-pill-inactive-hover-bg)';" onmouseout="if(!<?php echo $is_active ? 'true' : 'false'; ?>) { this.style.color='var(--text-secondary)'; this.style.background='var(--brand-pill-inactive-bg)'; }">
                                 <?php echo htmlspecialchars($b_name_pill); ?>
                             </a>
                         <?php endfor; ?>
@@ -1569,9 +1699,15 @@ if (!empty($domain_override)) {
                         <span class="profile-name"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
                         <span class="profile-role"><?php echo htmlspecialchars($_SESSION['role']); ?></span>
                     </div>
-                    <a href="admin.php?logout=1" class="btn-icon" title="Logout">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-                    </a>
+                    <div style="display: flex; gap: 0.35rem; align-items: center;">
+                        <button class="btn-icon" onclick="toggleTheme()" title="Toggle Theme" style="color: var(--text-secondary);">
+                            <svg class="theme-toggle-light-icon theme-toggle-icon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                            <svg class="theme-toggle-dark-icon theme-toggle-icon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                        </button>
+                        <a href="admin.php?logout=1" class="btn-icon" title="Logout">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                        </a>
+                    </div>
                 </div>
             </aside>
 
@@ -2163,7 +2299,7 @@ if (!empty($domain_override)) {
                                                 <tr>
                                                     <td style="font-weight: 600;"><?php echo htmlspecialchars($u['username']); ?></td>
                                                     <td>
-                                                        <span class="badge" style="background:rgba(255,255,255,0.05); color:var(--text-primary); border:1px solid var(--border-color);">
+                                                        <span class="badge" style="background:var(--badge-default-bg); color:var(--text-primary); border:1px solid var(--border-color);">
                                                             <?php echo strtoupper($u['role']); ?>
                                                         </span>
                                                     </td>
@@ -2393,6 +2529,13 @@ if (!empty($domain_override)) {
             
             errorDiv.style.display = "block";
             return false;
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
         }
     </script>
 </body>
