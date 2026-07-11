@@ -1578,7 +1578,7 @@ if (!empty($domain_override)) {
                     </form>
                     
                     <div class="auth-footer-links">
-                        <a href="admin.php">Back to Login</a>
+                        <a href="/admin.php">Back to Login</a>
                     </div>
                 </div>
             <?php else: ?>
@@ -1621,7 +1621,7 @@ if (!empty($domain_override)) {
                     </form>
 
                     <div class="auth-footer-links">
-                        <a href="admin.php?recovery=1">Forgot Password?</a>
+                        <a href="/admin.php?recovery=1">Forgot Password?</a>
                     </div>
                 </div>
             <?php endif; ?>
@@ -1631,7 +1631,7 @@ if (!empty($domain_override)) {
         <div class="wrapper">
             <!-- Sidebar Panel -->
             <aside class="sidebar">
-                <a href="admin.php" class="logo">
+                <a href="/admin.php" class="logo">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
                         <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
@@ -1648,7 +1648,7 @@ if (!empty($domain_override)) {
                             if (empty($b_name_pill)) $b_name_pill = 'Brand ' . $i;
                             $is_active = (intval($active_brand_id) === $i);
                         ?>
-                            <a href="admin.php?brand_id=<?php echo $i; ?>" class="brand-pill-btn" style="display: block; padding: 0.55rem 0.8rem; font-size: 0.825rem; font-weight: 600; border-radius: 10px; transition: all 0.2s; text-decoration: none; color: <?php echo $is_active ? '#fff' : 'var(--text-secondary)'; ?>; background: <?php echo $is_active ? 'var(--accent-gradient)' : 'var(--brand-pill-inactive-bg)'; ?>; border: 1px solid <?php echo $is_active ? 'transparent' : 'var(--border-color)'; ?>; box-shadow: <?php echo $is_active ? '0 4px 12px rgba(99,102,241,0.2)' : 'none'; ?>;" onmouseover="this.style.color='#fff'; if(!<?php echo $is_active ? 'true' : 'false'; ?>) this.style.background='var(--brand-pill-inactive-hover-bg)';" onmouseout="if(!<?php echo $is_active ? 'true' : 'false'; ?>) { this.style.color='var(--text-secondary)'; this.style.background='var(--brand-pill-inactive-bg)'; }">
+                            <a href="/admin.php?brand_id=<?php echo $i; ?>" class="brand-pill-btn" style="display: block; padding: 0.55rem 0.8rem; font-size: 0.825rem; font-weight: 600; border-radius: 10px; transition: all 0.2s; text-decoration: none; color: <?php echo $is_active ? '#fff' : 'var(--text-secondary)'; ?>; background: <?php echo $is_active ? 'var(--accent-gradient)' : 'var(--brand-pill-inactive-bg)'; ?>; border: 1px solid <?php echo $is_active ? 'transparent' : 'var(--border-color)'; ?>; box-shadow: <?php echo $is_active ? '0 4px 12px rgba(99,102,241,0.2)' : 'none'; ?>;" onmouseover="this.style.color='#fff'; if(!<?php echo $is_active ? 'true' : 'false'; ?>) this.style.background='var(--brand-pill-inactive-hover-bg)';" onmouseout="if(!<?php echo $is_active ? 'true' : 'false'; ?>) { this.style.color='var(--text-secondary)'; this.style.background='var(--brand-pill-inactive-bg)'; }">
                                 <?php echo htmlspecialchars($b_name_pill); ?>
                             </a>
                         <?php endfor; ?>
@@ -1657,37 +1657,37 @@ if (!empty($domain_override)) {
                 
                 <ul class="nav-links">
                     <li class="nav-item <?php echo $current_tab === 'overview' ? 'active' : ''; ?>">
-                        <a href="admin.php?tab=overview">
+                        <a href="/admin.php?tab=overview">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
                             Dashboard
                         </a>
                     </li>
                     <li class="nav-item <?php echo $current_tab === 'redirects' ? 'active' : ''; ?>">
-                        <a href="admin.php?tab=redirects">
+                        <a href="/admin.php?tab=redirects">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
                             Manage Links
                         </a>
                     </li>
                     <li class="nav-item <?php echo $current_tab === 'domains' ? 'active' : ''; ?>">
-                        <a href="admin.php?tab=domains">
+                        <a href="/admin.php?tab=domains">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
                             Domains List
                         </a>
                     </li>
                     <li class="nav-item <?php echo $current_tab === 'logs' ? 'active' : ''; ?>">
-                        <a href="admin.php?tab=logs">
+                        <a href="/admin.php?tab=logs">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
                             Click Logs
                         </a>
                     </li>
                     <li class="nav-item <?php echo $current_tab === 'security' ? 'active' : ''; ?>">
-                        <a href="admin.php?tab=security">
+                        <a href="/admin.php?tab=security">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                             Security Settings
                         </a>
                     </li>
                     <li class="nav-item <?php echo $current_tab === 'settings' ? 'active' : ''; ?>">
-                        <a href="admin.php?tab=settings">
+                        <a href="/admin.php?tab=settings">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                             General Settings
                         </a>
@@ -1704,7 +1704,7 @@ if (!empty($domain_override)) {
                             <svg class="theme-toggle-light-icon theme-toggle-icon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
                             <svg class="theme-toggle-dark-icon theme-toggle-icon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
                         </button>
-                        <a href="admin.php?logout=1" class="btn-icon" title="Logout">
+                        <a href="/admin.php?logout=1" class="btn-icon" title="Logout">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                         </a>
                     </div>
@@ -1815,11 +1815,11 @@ if (!empty($domain_override)) {
                                 System Actions
                             </h2>
                             <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                                <a href="admin.php?tab=redirects" class="submit-btn" style="text-decoration:none; justify-content:center;">
+                                <a href="/admin.php?tab=redirects" class="submit-btn" style="text-decoration:none; justify-content:center;">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                                     Create New Link
                                 </a>
-                                <a href="admin.php?export=csv" class="action-btn" style="text-decoration:none; justify-content:center; padding: 0.8rem 1.5rem; border-radius:14px; font-weight:600;">
+                                <a href="/admin.php?export=csv" class="action-btn" style="text-decoration:none; justify-content:center; padding: 0.8rem 1.5rem; border-radius:14px; font-weight:600;">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                                     Export redirects (CSV)
                                 </a>
@@ -1951,7 +1951,7 @@ if (!empty($domain_override)) {
                                                         Edit
                                                     </button>
                                                     <?php if ($link['slug'] !== 'default'): ?>
-                                                        <a href="admin.php?tab=redirects&delete_link=<?php echo $link['id']; ?>" class="action-btn action-btn-danger" onclick="return confirm('Are you sure you want to delete this link? Click history for this slug will be lost.');">
+                                                        <a href="/admin.php?tab=redirects&delete_link=<?php echo $link['id']; ?>" class="action-btn action-btn-danger" onclick="return confirm('Are you sure you want to delete this link? Click history for this slug will be lost.');">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                                                             Delete
                                                         </a>
@@ -1979,11 +1979,11 @@ if (!empty($domain_override)) {
                             Domain Rotation Manager
                         </h2>
                         <div style="display:flex; gap:0.5rem;">
-                            <a href="admin.php?tab=domains&check_domains=1" class="action-btn" style="text-decoration:none; background:var(--accent-gradient); color:white; border:none; box-shadow:0 4px 10px rgba(99,102,241,0.2);">
+                            <a href="/admin.php?tab=domains&check_domains=1" class="action-btn" style="text-decoration:none; background:var(--accent-gradient); color:white; border:none; box-shadow:0 4px 10px rgba(99,102,241,0.2);">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
                                 Check Domains Now
                             </a>
-                            <a href="admin.php?tab=domains&rotate_domain=1" class="action-btn" style="text-decoration:none;" onclick="return confirm('Are you sure you want to manually force-rotate to the next domain?');">
+                            <a href="/admin.php?tab=domains&rotate_domain=1" class="action-btn" style="text-decoration:none;" onclick="return confirm('Are you sure you want to manually force-rotate to the next domain?');">
                                 Force Rotate Active Domain
                             </a>
                         </div>
@@ -2039,7 +2039,7 @@ if (!empty($domain_override)) {
                                             <td>
                                                 <div class="actions-cell">
                                                     <?php if ($d['status'] !== 'active'): ?>
-                                                        <a href="admin.php?tab=domains&delete_domain=<?php echo $d['id']; ?>" class="action-btn action-btn-danger" style="padding:0.4rem 0.6rem; font-size:0.75rem;" onclick="return confirm('Are you sure you want to delete this domain?');">Delete</a>
+                                                        <a href="/admin.php?tab=domains&delete_domain=<?php echo $d['id']; ?>" class="action-btn action-btn-danger" style="padding:0.4rem 0.6rem; font-size:0.75rem;" onclick="return confirm('Are you sure you want to delete this domain?');">Delete</a>
                                                     <?php else: ?>
                                                         <span style="font-size:0.75rem; color:var(--text-secondary); font-style:italic;">Active (Primary)</span>
                                                     <?php endif; ?>
@@ -2117,7 +2117,7 @@ if (!empty($domain_override)) {
                             <div style="display:flex; gap:0.5rem; align-items:center;">
                                 <button type="submit" class="submit-btn" style="padding: 0.6rem 1.5rem; font-size:0.85rem;">Apply Filters</button>
                                 <?php if (!empty($filter_slug) || !empty($filter_ip)): ?>
-                                    <a href="admin.php?tab=logs" class="action-btn" style="padding: 0.6rem 1.2rem; text-decoration:none;">Reset</a>
+                                    <a href="/admin.php?tab=logs" class="action-btn" style="padding: 0.6rem 1.2rem; text-decoration:none;">Reset</a>
                                 <?php endif; ?>
                             </div>
                         </form>
@@ -2305,7 +2305,7 @@ if (!empty($domain_override)) {
                                                     </td>
                                                     <td>
                                                         <?php if ($u['id'] !== $_SESSION['user_id']): ?>
-                                                            <a href="admin.php?tab=security&delete_user=<?php echo $u['id']; ?>" class="action-btn action-btn-danger" style="padding: 0.35rem 0.6rem; font-size:0.75rem;" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                                                            <a href="/admin.php?tab=security&delete_user=<?php echo $u['id']; ?>" class="action-btn action-btn-danger" style="padding: 0.35rem 0.6rem; font-size:0.75rem;" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
                                                         <?php else: ?>
                                                             <span style="font-size:0.75rem; color:var(--text-secondary); font-style:italic;">You</span>
                                                         <?php endif; ?>
