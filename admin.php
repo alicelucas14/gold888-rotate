@@ -488,7 +488,7 @@ if (!empty($domain_override)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wings365 — Console</title>
+    <title>Gold888 - Console</title>
     <script>
         (function() {
             const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -2355,7 +2355,7 @@ if (!empty($domain_override)) {
                                  <div class="form-group" style="margin-bottom:0;">
                                      <label for="brand_name">Brand Name</label>
                                      <div class="input-wrapper">
-                                         <input type="text" name="brand_name" id="brand_name" class="form-input" value="<?php echo htmlspecialchars($brand_name); ?>" placeholder="e.g. Wings365" required>
+                                         <input type="text" name="brand_name" id="brand_name" class="form-input" value="<?php echo htmlspecialchars($brand_name); ?>" placeholder="e.g. Gold888" required>
                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
                                      </div>
                                      <span style="font-size:0.75rem; color:var(--text-secondary); display:block; margin-top:0.4rem;">Display name.</span>
@@ -2374,7 +2374,7 @@ if (!empty($domain_override)) {
                              <div class="form-group" style="margin-top: 0.5rem; margin-bottom: 1.5rem;">
                                  <label for="domain_override">Brand Domain Override (Optional)</label>
                                  <div class="input-wrapper">
-                                     <input type="text" name="domain_override" id="domain_override" class="form-input" value="<?php echo htmlspecialchars($domain_override); ?>" placeholder="e.g. https://wingsinformation.com">
+                                     <input type="text" name="domain_override" id="domain_override" class="form-input" value="<?php echo htmlspecialchars($domain_override); ?>" placeholder="e.g. https://gold888information.com">
                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
                                  </div>
                                  <span style="font-size:0.75rem; color:var(--text-secondary); display:block; margin-top:0.4rem;">If set, dashboard copy actions will use this URL. Exclude trailing slash.</span>
@@ -2469,7 +2469,7 @@ if (!empty($domain_override)) {
     <?php endif; ?>
 
     <footer>
-        Wings365 console &copy; 2026. JSON safe local storage active.
+        Gold888 console &copy; 2026. JSON safe local storage active.
     </footer>
 
     <script>

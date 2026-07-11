@@ -64,7 +64,7 @@ class JsonDatabase {
                 'check_interval_hours' => 6,
                 'brands' => [
                     '1' => [
-                        'name' => 'Wings365',
+                        'name' => 'Gold888',
                         'fallback_url' => 'https://cutt.ly/002wings',
                         'domain_override' => ''
                     ],
@@ -140,7 +140,7 @@ class JsonDatabase {
                 
                 $data['settings']['brands'] = [
                     '1' => [
-                        'name' => 'Wings365',
+                        'name' => 'Gold888',
                         'fallback_url' => $default_fallback,
                         'domain_override' => $default_override
                     ],
