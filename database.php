@@ -131,61 +131,157 @@ class JsonDatabase {
         $this->load();
         $needs_update = false;
 
-        $callback = function($data) use (&$needs_update) {
-            // 1. Initialize brands settings if missing
-            if (!isset($data['settings']['brands'])) {
-                $needs_update = true;
-                $default_fallback = $data['settings']['fallback_url'] ?? 'https://cutt.ly/002wings';
-                $default_override = $data['settings']['domain_override'] ?? '';
-                
-                $data['settings']['brands'] = [
-                    '1' => [
-                        'name' => 'Gold888',
-                        'fallback_url' => $default_fallback,
-                        'domain_override' => $default_override
-                    ],
-                    '2' => [
-                        'name' => 'Brand 2',
-                        'fallback_url' => $default_fallback,
-                        'domain_override' => ''
-                    ],
-                    '3' => [
-                        'name' => 'Brand 3',
-                        'fallback_url' => $default_fallback,
-                        'domain_override' => ''
-                    ],
-                    '4' => [
-                        'name' => 'Brand 4',
-                        'fallback_url' => $default_fallback,
-                        'domain_override' => ''
-                    ]
-                ];
-            }
-
-            // 2. Ensure all existing redirects have brand_id and backup_urls
-            foreach ($data['redirects'] as &$r) {
-                if (!isset($r['brand_id'])) {
+        // Check if we need updates using $this->data
+        if (!isset($this->data['settings']['brands'])) {
+            $needs_update = true;
+        }
+        
+        // Ensure all existing redirects have brand_id and backup_urls
+        if (isset($this->data['redirects'])) {
+            foreach ($this->data['redirects'] as $r) {
+                if (!isset($r['brand_id']) || !isset($r['backup_urls']) || !is_array($r['backup_urls'])) {
                     $needs_update = true;
-                    $r['brand_id'] = 1; // Default to Brand 1 (Wings365)
-                }
-                if (!isset($r['backup_urls']) || !is_array($r['backup_urls'])) {
-                    $needs_update = true;
-                    $r['backup_urls'] = [];
                 }
             }
+        }
 
-            // 3. Ensure all existing domains have brand_id
-            foreach ($data['domains'] as &$d) {
+        // Ensure all existing domains have brand_id
+        if (isset($this->data['domains'])) {
+            foreach ($this->data['domains'] as $d) {
                 if (!isset($d['brand_id'])) {
                     $needs_update = true;
-                    $d['brand_id'] = 1; // Default to Brand 1 (Wings365)
                 }
             }
+        }
 
-            return $data;
-        };
+        // Check if gold888id.com is registered
+        $has_gold888id = false;
+        if (isset($this->data['domains'])) {
+            foreach ($this->data['domains'] as $d) {
+                if (strtolower(trim($d['domain'] ?? '')) === 'gold888id.com') {
+                    $has_gold888id = true;
+                    break;
+                }
+            }
+        }
+        if (!$has_gold888id) {
+            $needs_update = true;
+        }
 
-        if ($needs_update || !isset($this->data['settings']['brands'])) {
+        // Check if default redirect for brand 1 exists and points to https://gamegold888.cyou
+        $default_redirect_correct = false;
+        if (isset($this->data['redirects'])) {
+            foreach ($this->data['redirects'] as $r) {
+                if (strtolower(trim($r['slug'] ?? '')) === 'default' && intval($r['brand_id'] ?? 0) === 1) {
+                    if ($r['target_url'] === 'https://gamegold888.cyou') {
+                        $default_redirect_correct = true;
+                    }
+                }
+            }
+        }
+        if (!$default_redirect_correct) {
+            $needs_update = true;
+        }
+
+        if ($needs_update) {
+            $callback = function($data) {
+                // Initialize brands settings if missing
+                if (!isset($data['settings']['brands'])) {
+                    $default_fallback = $data['settings']['fallback_url'] ?? 'https://cutt.ly/002wings';
+                    $default_override = $data['settings']['domain_override'] ?? '';
+                    
+                    $data['settings']['brands'] = [
+                        '1' => [
+                            'name' => 'Gold888',
+                            'fallback_url' => $default_fallback,
+                            'domain_override' => $default_override
+                        ],
+                        '2' => [
+                            'name' => 'Brand 2',
+                            'fallback_url' => $default_fallback,
+                            'domain_override' => ''
+                        ],
+                        '3' => [
+                            'name' => 'Brand 3',
+                            'fallback_url' => $default_fallback,
+                            'domain_override' => ''
+                        ],
+                        '4' => [
+                            'name' => 'Brand 4',
+                            'fallback_url' => $default_fallback,
+                            'domain_override' => ''
+                        ]
+                    ];
+                }
+
+                // Ensure all existing redirects have brand_id and backup_urls
+                foreach ($data['redirects'] as &$r) {
+                    if (!isset($r['brand_id'])) {
+                        $r['brand_id'] = 1;
+                    }
+                    if (!isset($r['backup_urls']) || !is_array($r['backup_urls'])) {
+                        $r['backup_urls'] = [];
+                    }
+                }
+
+                // Ensure all existing domains have brand_id
+                foreach ($data['domains'] as &$d) {
+                    if (!isset($d['brand_id'])) {
+                        $d['brand_id'] = 1;
+                    }
+                }
+
+                // Ensure gold888id.com is registered as a domain for Brand 1
+                $has_gold888id = false;
+                foreach ($data['domains'] as $d) {
+                    if (strtolower(trim($d['domain'] ?? '')) === 'gold888id.com') {
+                        $has_gold888id = true;
+                        break;
+                    }
+                }
+                if (!$has_gold888id) {
+                    $new_dom_id = 1;
+                    if (!empty($data['domains'])) {
+                        $new_dom_id = max(array_column($data['domains'], 'id')) + 1;
+                    }
+                    $data['domains'][] = [
+                        'id' => $new_dom_id,
+                        'domain' => 'gold888id.com',
+                        'brand_id' => 1,
+                        'status' => 'active',
+                        'last_checked' => 'Never',
+                        'blocked_reason' => '',
+                        'created_at' => date('Y-m-d H:i:s')
+                    ];
+                }
+
+                // Ensure default redirect for Brand 1 exists and points to https://gamegold888.cyou
+                $default_redirect_key = null;
+                foreach ($data['redirects'] as $key => $r) {
+                    if (strtolower(trim($r['slug'] ?? '')) === 'default' && intval($r['brand_id'] ?? 0) === 1) {
+                        $default_redirect_key = $key;
+                        break;
+                    }
+                }
+                if ($default_redirect_key !== null) {
+                    $data['redirects'][$default_redirect_key]['target_url'] = 'https://gamegold888.cyou';
+                } else {
+                    $new_red_id = time() . rand(100, 999);
+                    $data['redirects'][] = [
+                        'id' => intval($new_red_id),
+                        'brand_id' => 1,
+                        'slug' => 'default',
+                        'target_url' => 'https://gamegold888.cyou',
+                        'backup_urls' => [],
+                        'status' => 1,
+                        'clicks' => 0,
+                        'created_at' => date('Y-m-d H:i:s')
+                    ];
+                }
+
+                return $data;
+            };
+
             $this->update_db($callback);
         }
     }

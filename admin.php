@@ -85,7 +85,7 @@ if ($setup_mode && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action
             
             // Insert default redirect route if not exists for Brand 1
             if (!$db->getRedirectBySlugAndBrand('default', 1)) {
-                $db->addRedirect('default', 'https://cutt.ly/002wings', 1, 1);
+                $db->addRedirect('default', 'https://gamegold888.cyou', 1, 1);
             }
             
             // Insert current hostname as active domain for Brand 1
