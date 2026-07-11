@@ -499,17 +499,16 @@ if (!empty($domain_override)) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #05060a;
-            --surface-color: rgba(16, 18, 30, 0.75);
-            --sidebar-color: rgba(11, 12, 22, 0.9);
-            --border-color: rgba(255, 255, 255, 0.08);
-            --text-primary: #f3f4f6;
-            --text-secondary: #9ca3af;
-            --accent-primary: #6366f1;
-            --accent-secondary: #a855f7;
-            --accent-gradient: linear-gradient(135deg, #6366f1, #a855f7);
+    <style>        :root {
+            --bg-color: #070603;
+            --surface-color: rgba(22, 19, 11, 0.75);
+            --sidebar-color: rgba(14, 12, 7, 0.9);
+            --border-color: rgba(255, 255, 255, 0.07);
+            --text-primary: #f8f6f0;
+            --text-secondary: #a39f93;
+            --accent-primary: #d4af37;
+            --accent-secondary: #aa7c11;
+            --accent-gradient: linear-gradient(135deg, #ffe580, #d4af37, #aa7c11);
             --success-color: #10b981;
             --success-bg: rgba(16, 185, 129, 0.1);
             --success-border: rgba(16, 185, 129, 0.25);
@@ -519,78 +518,78 @@ if (!empty($domain_override)) {
             --font-main: 'Outfit', sans-serif;
             --font-heading: 'Plus Jakarta Sans', sans-serif;
 
-            --bg-gradient-1: rgba(99, 102, 241, 0.12);
-            --bg-gradient-2: rgba(168, 85, 247, 0.1);
-            --input-bg: rgba(255, 255, 255, 0.04);
-            --input-focus-bg: rgba(255, 255, 255, 0.07);
+            --bg-gradient-1: rgba(212, 175, 55, 0.08);
+            --bg-gradient-2: rgba(170, 124, 17, 0.05);
+            --input-bg: rgba(255, 255, 255, 0.03);
+            --input-focus-bg: rgba(255, 255, 255, 0.06);
             --nav-hover-bg: rgba(255, 255, 255, 0.04);
-            --user-profile-bg: rgba(255, 255, 255, 0.03);
-            --bar-track-bg: rgba(255, 255, 255, 0.03);
+            --user-profile-bg: rgba(255, 255, 255, 0.025);
+            --bar-track-bg: rgba(255, 255, 255, 0.025);
             --table-header-bg: rgba(255, 255, 255, 0.02);
             --table-row-hover-bg: rgba(255, 255, 255, 0.015);
-            --box-shadow-auth: 0 25px 50px rgba(0, 0, 0, 0.4);
-            --box-shadow-card: 0 15px 35px rgba(0, 0, 0, 0.15);
-            --box-shadow-stats: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --box-shadow-auth: 0 25px 50px rgba(0, 0, 0, 0.5);
+            --box-shadow-card: 0 15px 35px rgba(0, 0, 0, 0.25);
+            --box-shadow-stats: 0 10px 30px rgba(0, 0, 0, 0.15);
             
-            --action-btn-bg: rgba(255, 255, 255, 0.04);
-            --action-btn-hover-bg: rgba(255, 255, 255, 0.08);
-            --action-btn-hover-border: rgba(255, 255, 255, 0.15);
+            --action-btn-bg: rgba(255, 255, 255, 0.03);
+            --action-btn-hover-bg: rgba(255, 255, 255, 0.07);
+            --action-btn-hover-border: rgba(255, 255, 255, 0.12);
             
-            --footer-text: rgba(255, 255, 255, 0.15);
-            --footer-border: rgba(255, 255, 255, 0.03);
+            --footer-text: rgba(255, 255, 255, 0.12);
+            --footer-border: rgba(255, 255, 255, 0.02);
             
-            --brand-pill-inactive-bg: rgba(255, 255, 255, 0.02);
-            --brand-pill-inactive-hover-bg: rgba(255, 255, 255, 0.06);
-            --badge-default-bg: rgba(255, 255, 255, 0.05);
+            --brand-pill-inactive-bg: rgba(255, 255, 255, 0.015);
+            --brand-pill-inactive-hover-bg: rgba(255, 255, 255, 0.05);
+            --badge-default-bg: rgba(255, 255, 255, 0.04);
             
-            --btn-secondary-bg: rgba(255, 255, 255, 0.05);
-            --btn-secondary-hover-bg: rgba(255, 255, 255, 0.1);
+            --btn-secondary-bg: rgba(255, 255, 255, 0.04);
+            --btn-secondary-hover-bg: rgba(255, 255, 255, 0.08);
         }
 
         [data-theme="light"] {
-            --bg-color: #f8fafc;
+            --bg-color: #fcfbfa;
             --surface-color: rgba(255, 255, 255, 0.85);
-            --sidebar-color: rgba(241, 245, 249, 0.95);
-            --border-color: rgba(0, 0, 0, 0.08);
-            --text-primary: #0f172a;
-            --text-secondary: #64748b;
-            --accent-primary: #4f46e5;
-            --accent-secondary: #9333ea;
-            --accent-gradient: linear-gradient(135deg, #4f46e5, #9333ea);
+            --sidebar-color: rgba(247, 245, 240, 0.95);
+            --border-color: rgba(0, 0, 0, 0.06);
+            --text-primary: #1a160d;
+            --text-secondary: #7c7565;
+            --accent-primary: #c59b27;
+            --accent-secondary: #996515;
+            --accent-gradient: linear-gradient(135deg, #d4af37, #996515);
             --success-color: #10b981;
-            --success-bg: rgba(16, 185, 129, 0.08);
-            --success-border: rgba(16, 185, 129, 0.15);
+            --success-bg: rgba(16, 185, 129, 0.06);
+            --success-border: rgba(16, 185, 129, 0.12);
             --error-color: #ef4444;
-            --error-bg: rgba(239, 68, 68, 0.08);
-            --error-border: rgba(239, 68, 68, 0.15);
+            --error-bg: rgba(239, 68, 68, 0.06);
+            --error-border: rgba(239, 68, 68, 0.12);
             
-            --bg-gradient-1: rgba(99, 102, 241, 0.06);
-            --bg-gradient-2: rgba(168, 85, 247, 0.05);
-            --input-bg: rgba(0, 0, 0, 0.03);
-            --input-focus-bg: rgba(0, 0, 0, 0.05);
-            --nav-hover-bg: rgba(0, 0, 0, 0.03);
-            --user-profile-bg: rgba(0, 0, 0, 0.02);
-            --bar-track-bg: rgba(0, 0, 0, 0.02);
+            --bg-gradient-1: rgba(212, 175, 55, 0.04);
+            --bg-gradient-2: rgba(153, 101, 21, 0.03);
+            --input-bg: rgba(0, 0, 0, 0.02);
+            --input-focus-bg: rgba(0, 0, 0, 0.04);
+            --nav-hover-bg: rgba(0, 0, 0, 0.02);
+            --user-profile-bg: rgba(0, 0, 0, 0.015);
+            --bar-track-bg: rgba(0, 0, 0, 0.015);
             --table-header-bg: rgba(0, 0, 0, 0.01);
-            --table-row-hover-bg: rgba(0, 0, 0, 0.01);
-            --box-shadow-auth: 0 25px 50px rgba(0, 0, 0, 0.08);
-            --box-shadow-card: 0 15px 35px rgba(0, 0, 0, 0.05);
-            --box-shadow-stats: 0 10px 30px rgba(0, 0, 0, 0.03);
+            --table-row-hover-bg: rgba(0, 0, 0, 0.008);
+            --box-shadow-auth: 0 25px 50px rgba(0, 0, 0, 0.06);
+            --box-shadow-card: 0 15px 35px rgba(0, 0, 0, 0.03);
+            --box-shadow-stats: 0 10px 30px rgba(0, 0, 0, 0.02);
             
-            --action-btn-bg: rgba(0, 0, 0, 0.03);
-            --action-btn-hover-bg: rgba(0, 0, 0, 0.06);
-            --action-btn-hover-border: rgba(0, 0, 0, 0.12);
+            --action-btn-bg: rgba(0, 0, 0, 0.02);
+            --action-btn-hover-bg: rgba(0, 0, 0, 0.05);
+            --action-btn-hover-border: rgba(0, 0, 0, 0.08);
             
-            --footer-text: rgba(0, 0, 0, 0.4);
-            --footer-border: rgba(0, 0, 0, 0.05);
+            --footer-text: rgba(0, 0, 0, 0.35);
+            --footer-border: rgba(0, 0, 0, 0.03);
             
-            --brand-pill-inactive-bg: rgba(0, 0, 0, 0.02);
-            --brand-pill-inactive-hover-bg: rgba(0, 0, 0, 0.04);
-            --badge-default-bg: rgba(0, 0, 0, 0.04);
+            --brand-pill-inactive-bg: rgba(0, 0, 0, 0.015);
+            --brand-pill-inactive-hover-bg: rgba(0, 0, 0, 0.03);
+            --badge-default-bg: rgba(0, 0, 0, 0.03);
             
-            --btn-secondary-bg: rgba(0, 0, 0, 0.04);
-            --btn-secondary-hover-bg: rgba(0, 0, 0, 0.08);
-        }
+            --btn-secondary-bg: rgba(0, 0, 0, 0.03);
+            --btn-secondary-hover-bg: rgba(0, 0, 0, 0.06);
+        } }
 
         * {
             box-sizing: border-box;
