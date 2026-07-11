@@ -676,6 +676,36 @@ class JsonDatabase {
         });
     }
 
+    public function setActiveDomain($id) {
+        return $this->update_db(function($data) use ($id) {
+            $target_brand_id = 1;
+            
+            // Find the brand of the target domain
+            foreach ($data['domains'] as $d) {
+                if (intval($d['id']) === intval($id)) {
+                    $target_brand_id = intval($d['brand_id'] ?? 1);
+                    break;
+                }
+            }
+            
+            // Mark all other domains for this brand as clean (deactivating them)
+            // and mark the target domain as active
+            foreach ($data['domains'] as &$d) {
+                if (intval($d['brand_id'] ?? 1) === $target_brand_id) {
+                    if (intval($d['id']) === intval($id)) {
+                        $d['status'] = 'active';
+                        $d['blocked_reason'] = '';
+                    } else {
+                        if ($d['status'] === 'active') {
+                            $d['status'] = 'clean';
+                        }
+                    }
+                }
+            }
+            return $data;
+        });
+    }
+
     public function getActiveDomain($brand_id = 1) {
         $this->load();
         $brand_id = intval($brand_id);

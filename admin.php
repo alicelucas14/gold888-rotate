@@ -379,6 +379,15 @@ if ($is_authenticated) {
         exit;
     }
 
+    // Set Active Domain GET
+    if (isset($_GET['set_active_domain'])) {
+        $id = intval($_GET['set_active_domain']);
+        $db->setActiveDomain($id);
+        $_SESSION['success'] = 'Active domain updated successfully.';
+        header('Location: /admin.php?tab=domains');
+        exit;
+    }
+
     // Manual Force Check Domains GET
     if (isset($_GET['check_domains'])) {
         $rotated = runAutoCheck($db, true);
@@ -2050,7 +2059,16 @@ if (!empty($domain_override)) {
                                             </td>
                                             <td>
                                                 <div class="actions-cell">
+                                                    <?php 
+                                                    // Count total domains for this brand
+                                                    $brand_domains_count = count(array_filter($domains, function($dom) use ($d) {
+                                                        return intval($dom['brand_id'] ?? 1) === intval($d['brand_id'] ?? 1);
+                                                    }));
+                                                    ?>
                                                     <?php if ($d['status'] !== 'active'): ?>
+                                                        <a href="/admin.php?tab=domains&set_active_domain=<?php echo $d['id']; ?>" class="action-btn" style="padding:0.4rem 0.6rem; font-size:0.75rem; background:var(--accent-gradient); color:white; border:none; text-decoration:none; border-radius:8px;">Activate</a>
+                                                    <?php endif; ?>
+                                                    <?php if ($brand_domains_count > 1): ?>
                                                         <a href="/admin.php?tab=domains&delete_domain=<?php echo $d['id']; ?>" class="action-btn action-btn-danger" style="padding:0.4rem 0.6rem; font-size:0.75rem;" onclick="return confirm('Are you sure you want to delete this domain?');">Delete</a>
                                                     <?php else: ?>
                                                         <span style="font-size:0.75rem; color:var(--text-secondary); font-style:italic;">Active (Primary)</span>
