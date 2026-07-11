@@ -917,6 +917,13 @@ if (!empty($domain_override)) {
             margin-bottom: 1.25rem;
         }
 
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
         .form-group label {
             display: block;
             font-size: 0.825rem;
@@ -2332,66 +2339,70 @@ if (!empty($domain_override)) {
                         <form method="POST">
                             <input type="hidden" name="action" value="save_settings">
                             
-                            <!-- Brand settings section -->
-                            <div style="border-bottom:1px solid var(--border-color); padding-bottom:0.75rem; margin-bottom:1.5rem;">
-                                <h4 style="font-size:0.9rem; font-weight:600; text-transform:uppercase; color:var(--text-secondary); margin-bottom:0.25rem;">Brand settings (<?php echo htmlspecialchars($brand_name); ?>)</h4>
-                                <span style="font-size:0.75rem; color:var(--text-secondary);">These settings only apply to the currently selected brand.</span>
-                            </div>
+                             <!-- Brand settings section -->
+                             <div style="border-bottom:1px solid var(--border-color); padding-bottom:0.75rem; margin-bottom:1.5rem;">
+                                 <h4 style="font-size:0.9rem; font-weight:600; text-transform:uppercase; color:var(--text-secondary); margin-bottom:0.25rem;">Brand settings (<?php echo htmlspecialchars($brand_name); ?>)</h4>
+                                 <span style="font-size:0.75rem; color:var(--text-secondary);">These settings only apply to the currently selected brand.</span>
+                             </div>
 
-                            <div class="form-group">
-                                <label for="brand_name">Brand Name</label>
-                                <div class="input-wrapper">
-                                    <input type="text" name="brand_name" id="brand_name" class="form-input" value="<?php echo htmlspecialchars($brand_name); ?>" placeholder="e.g. Wings365" required>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                                </div>
-                                <span style="font-size:0.8rem; color:var(--text-secondary); display:block; margin-top:0.4rem;">The display name for the currently selected brand.</span>
-                            </div>
+                             <div class="form-grid">
+                                 <div class="form-group" style="margin-bottom:0;">
+                                     <label for="brand_name">Brand Name</label>
+                                     <div class="input-wrapper">
+                                         <input type="text" name="brand_name" id="brand_name" class="form-input" value="<?php echo htmlspecialchars($brand_name); ?>" placeholder="e.g. Wings365" required>
+                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                     </div>
+                                     <span style="font-size:0.75rem; color:var(--text-secondary); display:block; margin-top:0.4rem;">Display name.</span>
+                                 </div>
 
-                            <div class="form-group">
-                                <label for="fallback_url">Brand Fallback URL</label>
-                                <div class="input-wrapper">
-                                    <input type="text" name="fallback_url" id="fallback_url" class="form-input" value="<?php echo htmlspecialchars($fallback_url); ?>" placeholder="https://cutt.ly/002wings" required>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-                                </div>
-                                <span style="font-size:0.8rem; color:var(--text-secondary); display:block; margin-top:0.4rem;">Used as a backup redirection target when an requested slug does not match any entry, and no default redirect exists for this brand.</span>
-                            </div>
+                                 <div class="form-group" style="margin-bottom:0;">
+                                     <label for="fallback_url">Fallback URL</label>
+                                     <div class="input-wrapper">
+                                         <input type="text" name="fallback_url" id="fallback_url" class="form-input" value="<?php echo htmlspecialchars($fallback_url); ?>" placeholder="https://cutt.ly/002wings" required>
+                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                                     </div>
+                                     <span style="font-size:0.75rem; color:var(--text-secondary); display:block; margin-top:0.4rem;">Redirection target if slug doesn't exist.</span>
+                                 </div>
+                             </div>
 
-                            <div class="form-group" style="margin-top: 2rem;">
-                                <label for="domain_override">Brand Domain Override (Optional)</label>
-                                <div class="input-wrapper">
-                                    <input type="text" name="domain_override" id="domain_override" class="form-input" value="<?php echo htmlspecialchars($domain_override); ?>" placeholder="e.g. https://wingsinformation.com">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-                                </div>
-                                <span style="font-size:0.8rem; color:var(--text-secondary); display:block; margin-top:0.4rem;">If set, copies of link paths on the dashboard for this brand will use this URL instead of dynamically detecting the host header. Include the protocol (<code>http://</code> or <code>https://</code>) but do not include a trailing slash.</span>
-                            </div>
+                             <div class="form-group" style="margin-top: 0.5rem; margin-bottom: 1.5rem;">
+                                 <label for="domain_override">Brand Domain Override (Optional)</label>
+                                 <div class="input-wrapper">
+                                     <input type="text" name="domain_override" id="domain_override" class="form-input" value="<?php echo htmlspecialchars($domain_override); ?>" placeholder="e.g. https://wingsinformation.com">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                                 </div>
+                                 <span style="font-size:0.75rem; color:var(--text-secondary); display:block; margin-top:0.4rem;">If set, dashboard copy actions will use this URL. Exclude trailing slash.</span>
+                             </div>
 
-                            <div style="border-top:1px solid var(--border-color); padding-top:1.5rem; margin-top:2rem; margin-bottom:1rem;">
-                                <h4 style="font-size:0.9rem; font-weight:600; text-transform:uppercase; color:var(--text-secondary); margin-bottom:0.25rem;">Global Configuration</h4>
-                                <span style="font-size:0.75rem; color:var(--text-secondary); margin-bottom:1rem; display:block;">These settings apply to all 4 brands across the entire system.</span>
-                            </div>
+                             <div style="border-top:1px solid var(--border-color); padding-top:1rem; margin-top:1.5rem; margin-bottom:1rem;">
+                                 <h4 style="font-size:0.9rem; font-weight:600; text-transform:uppercase; color:var(--text-secondary); margin-bottom:0.25rem;">Global Configuration</h4>
+                                 <span style="font-size:0.75rem; color:var(--text-secondary); margin-bottom:1rem; display:block;">These settings apply to all 4 brands across the entire system.</span>
+                             </div>
 
-                            <div class="form-group">
-                                <label for="safe_browsing_key">Google Safe Browsing API Key (Optional)</label>
-                                <div class="input-wrapper">
-                                    <input type="text" name="safe_browsing_key" id="safe_browsing_key" class="form-input" value="<?php echo htmlspecialchars($safe_browsing_key); ?>" placeholder="Enter API Key">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                </div>
-                                <span style="font-size:0.8rem; color:var(--text-secondary); display:block; margin-top:0.4rem;">Provides secondary verification for malware/phishing warnings. If left blank, the checker will rely on DNS-based spam databases (SURBL/Spamhaus) which work out-of-the-box.</span>
-                            </div>
+                             <div class="form-grid">
+                                 <div class="form-group" style="margin-bottom:0;">
+                                     <label for="safe_browsing_key">Safe Browsing API Key (Optional)</label>
+                                     <div class="input-wrapper">
+                                         <input type="text" name="safe_browsing_key" id="safe_browsing_key" class="form-input" value="<?php echo htmlspecialchars($safe_browsing_key); ?>" placeholder="Enter API Key">
+                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                     </div>
+                                     <span style="font-size:0.75rem; color:var(--text-secondary); display:block; margin-top:0.4rem;">Google API key for malware warnings.</span>
+                                 </div>
 
-                            <div class="form-group">
-                                <label for="check_interval_hours">Checking Interval (Hours)</label>
-                                <div class="input-wrapper">
-                                    <input type="number" name="check_interval_hours" id="check_interval_hours" class="form-input" value="<?php echo $check_interval_hours; ?>" min="0.01" step="0.01" required>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                </div>
-                                <span style="font-size:0.8rem; color:var(--text-secondary); display:block; margin-top:0.4rem;">How often the system scans the active domain for blocks (default: every 6 hours). You can use decimals (e.g. <code>0.5</code> for 30 minutes, <code>0.25</code> for 15 minutes). Checked periodically during visitor redirects.</span>
-                            </div>
+                                 <div class="form-group" style="margin-bottom:0;">
+                                     <label for="check_interval_hours">Checking Interval (Hours)</label>
+                                     <div class="input-wrapper">
+                                         <input type="number" name="check_interval_hours" id="check_interval_hours" class="form-input" value="<?php echo $check_interval_hours; ?>" min="0.01" step="0.01" required>
+                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                     </div>
+                                     <span style="font-size:0.75rem; color:var(--text-secondary); display:block; margin-top:0.4rem;">Domain block status scan frequency.</span>
+                                 </div>
+                             </div>
 
-                            <button type="submit" class="submit-btn" style="margin-top: 1.5rem;">Save Settings</button>
-                        </form>
-                    </div>
-                <?php endif; ?>
+                             <button type="submit" class="submit-btn" style="margin-top: 1.5rem;">Save Settings</button>
+                         </form>
+                     </div>
+                 <?php endif; ?>
             </main>
         </div>
     <?php endif; ?>
