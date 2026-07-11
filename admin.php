@@ -6,7 +6,7 @@ require_once __DIR__ . '/checker.php';
 // Brand ID Selection
 if (isset($_GET['brand_id']) && in_array($_GET['brand_id'], ['1', '2', '3', '4'])) {
     $_SESSION['active_brand_id'] = intval($_GET['brand_id']);
-    header('Location: admin.php');
+    header('Location: /admin.php');
     exit;
 }
 if (!isset($_SESSION['active_brand_id'])) {
@@ -98,7 +98,7 @@ if ($setup_mode && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action
             $_SESSION['role'] = 'admin';
             $_SESSION['logged_in'] = true;
             
-            header('Location: admin.php');
+            header('Location: /admin.php');
             exit;
         } catch (Exception $e) {
             $error = 'Setup failed: ' . $e->getMessage();
@@ -118,7 +118,7 @@ if (!$setup_mode && !isset($_SESSION['logged_in']) && $_SERVER['REQUEST_METHOD']
         $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
         $_SESSION['logged_in'] = true;
-        header('Location: admin.php');
+        header('Location: /admin.php');
         exit;
     } else {
         $error = 'Invalid username or password.';
@@ -177,7 +177,7 @@ if ($is_authenticated) {
     // Handle Logout
     if (isset($_GET['logout'])) {
         session_destroy();
-        header('Location: admin.php');
+        header('Location: /admin.php');
         exit;
     }
     
@@ -212,7 +212,7 @@ if ($is_authenticated) {
                 }
             }
         }
-        header('Location: admin.php?tab=redirects');
+        header('Location: /admin.php?tab=redirects');
         exit;
     }
     
@@ -246,7 +246,7 @@ if ($is_authenticated) {
                 }
             }
         }
-        header('Location: admin.php?tab=redirects');
+        header('Location: /admin.php?tab=redirects');
         exit;
     }
     
@@ -264,7 +264,7 @@ if ($is_authenticated) {
                 $_SESSION['error'] = 'Failed to delete redirect link.';
             }
         }
-        header('Location: admin.php?tab=redirects');
+        header('Location: /admin.php?tab=redirects');
         exit;
     }
     
@@ -272,7 +272,7 @@ if ($is_authenticated) {
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'clear_logs') {
         $db->clearLogs($active_brand_id);
         $_SESSION['success'] = 'Click logs cleared and redirect counters reset for the active brand!';
-        header('Location: admin.php?tab=overview');
+        header('Location: /admin.php?tab=overview');
         exit;
     }
     
@@ -294,7 +294,7 @@ if ($is_authenticated) {
                 $_SESSION['success'] = "User account '{$username}' created.";
             }
         }
-        header('Location: admin.php?tab=security');
+        header('Location: /admin.php?tab=security');
         exit;
     }
     
@@ -307,7 +307,7 @@ if ($is_authenticated) {
             $db->deleteUser($id);
             $_SESSION['success'] = 'User account deleted.';
         }
-        header('Location: admin.php?tab=security');
+        header('Location: /admin.php?tab=security');
         exit;
     }
     
@@ -350,7 +350,7 @@ if ($is_authenticated) {
                 $_SESSION['error'] = $ex->getMessage();
             }
         }
-        header('Location: admin.php?tab=security');
+        header('Location: /admin.php?tab=security');
         exit;
     }
 
@@ -366,7 +366,7 @@ if ($is_authenticated) {
                 $_SESSION['error'] = "Failed to add domain. It may already exist.";
             }
         }
-        header('Location: admin.php?tab=domains');
+        header('Location: /admin.php?tab=domains');
         exit;
     }
 
@@ -375,7 +375,7 @@ if ($is_authenticated) {
         $id = intval($_GET['delete_domain']);
         $db->deleteDomain($id);
         $_SESSION['success'] = 'Domain deleted successfully.';
-        header('Location: admin.php?tab=domains');
+        header('Location: /admin.php?tab=domains');
         exit;
     }
 
@@ -387,7 +387,7 @@ if ($is_authenticated) {
         } else {
             $_SESSION['success'] = 'Blacklist verification complete: Active domain is clean!';
         }
-        header('Location: admin.php?tab=domains');
+        header('Location: /admin.php?tab=domains');
         exit;
     }
 
@@ -395,7 +395,7 @@ if ($is_authenticated) {
     if (isset($_GET['rotate_domain'])) {
         $db->rotateDomain($active_brand_id, 'Manually rotated by admin.');
         $_SESSION['success'] = 'Domain rotated to next clean backup successfully.';
-        header('Location: admin.php?tab=domains');
+        header('Location: /admin.php?tab=domains');
         exit;
     }
     
@@ -422,7 +422,7 @@ if ($is_authenticated) {
             $db->updateSetting('check_interval_hours', $check_interval_hours);
             $_SESSION['success'] = 'Settings updated successfully!';
         }
-        header('Location: admin.php?tab=settings');
+        header('Location: /admin.php?tab=settings');
         exit;
     }
     
