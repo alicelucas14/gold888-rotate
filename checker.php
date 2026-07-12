@@ -188,12 +188,20 @@ function checkIndonesianIspBlock($domain, $ignoreNxdomain = false) {
         '0.0.0.0'
     ];
     
+    static $dnsSanity = [];
+    
     foreach ($indonesianDnsServers as $dnsName => $dnsIp) {
-        // --- SANITY CHECK: Ensure we can query this DNS server from our location ---
-        $testRes = queryCustomDNS('google.com', $dnsIp);
-        if (isset($testRes['error']) || empty($testRes['ips'])) {
-            // If we cannot resolve google.com on this server, it means the DNS server is blocking
-            // external queries, or is down/unreachable from our server. We must skip it.
+        // --- SANITY CHECK: Ensure we can query this DNS server from our location (cached per request) ---
+        if (!isset($dnsSanity[$dnsIp])) {
+            $testRes = queryCustomDNS('google.com', $dnsIp);
+            if (isset($testRes['error']) || empty($testRes['ips'])) {
+                $dnsSanity[$dnsIp] = false; // Mark as unreachable / closed resolver from our server
+            } else {
+                $dnsSanity[$dnsIp] = true;
+            }
+        }
+
+        if (!$dnsSanity[$dnsIp]) {
             continue;
         }
 
@@ -386,18 +394,48 @@ function runAutoCheck($db, $force = false) {
                     continue; // Skip inactive redirects
                 }
                 
-                $target_url = $r['target_url'];
-                $target_host = parse_url($target_url, PHP_URL_HOST);
-                if (empty($target_host)) {
-                    continue;
-                }
+                $attempts = 0;
+                $max_attempts = count($r['backup_urls'] ?? []) + 1;
+                $current_target = $r['target_url'];
                 
-                // Query Indonesian ISP check for target host. We ignore NXDOMAIN for target hosts.
-                $ispCheck = checkIndonesianIspBlock($target_host, true);
-                if ($ispCheck['blocked']) {
-                    // Target destination is blocked in Indonesia! Rotate to the next backup URL.
-                    $db->rotateRedirectTarget($r['id'], $ispCheck['reason']);
-                    $rotated_any = true;
+                while ($attempts < $max_attempts) {
+                    // Ensure the URL has a protocol prefix so parse_url can extract the host correctly
+                    $target_url_for_parse = $current_target;
+                    if (!preg_match('/^https?:\/\//i', $current_target)) {
+                        $target_url_for_parse = 'http://' . $current_target;
+                    }
+                    
+                    $target_host = parse_url($target_url_for_parse, PHP_URL_HOST);
+                    if (empty($target_host)) {
+                        break;
+                    }
+                    
+                    // Query Indonesian ISP check for target host. We ignore NXDOMAIN for target hosts.
+                    $ispCheck = checkIndonesianIspBlock($target_host, true);
+                    if ($ispCheck['blocked']) {
+                        $backup_urls = $r['backup_urls'] ?? [];
+                        if (empty($backup_urls)) {
+                            break; // No backup URLs left to rotate to, stop trying
+                        }
+                        
+                        // Target destination is blocked in Indonesia! Rotate to the next backup URL.
+                        $db->rotateRedirectTarget($r['id'], $ispCheck['reason']);
+                        $rotated_any = true;
+                        
+                        // Reload the redirect details to check the new target in the next iteration
+                        $updated_r = $db->getRedirectById($r['id']);
+                        if ($updated_r) {
+                            $r = $updated_r;
+                            $current_target = $r['target_url'];
+                        } else {
+                            break;
+                        }
+                        
+                        $attempts++;
+                    } else {
+                        // The current target is clean, stop rotating
+                        break;
+                    }
                 }
             }
         }
